@@ -42,9 +42,8 @@ fi
 # fonts
 sudo sh -c 'echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections'
 
-
 # one big install
-sudo apt-get install vim curl build-essential sublime-text git virtualbox-5.0 jekyll dropbox google-chrome-stable spotify-client ttf-mscorefonts-installer
+sudo apt-get install vim curl build-essential sublime-text git virtualbox-5.0 jekyll nodejs wine winetricks dropbox google-chrome-stable spotify-client ttf-mscorefonts-installer
 
 if [[ "$REQUIRES_UPDATE" == "yes" ]]; then
   sudo apt-get dist-upgrade
@@ -53,7 +52,10 @@ fi
 $SCRIPT_DIR/consolas.sh 
 
 #ruby
-if [ ! -L ~/.rvm/rubies/default ]; then
+#if [ ! -L ~/.rvm/rubies/default ]; then
   gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-  curl -sSL https://get.rvm.io | bash -s stable --ruby
-fi
+  curl -sSL https://get.rvm.io | bash -s stable --ruby --ruby=1.9.3 --ruby=2.0.0
+  source /home/joe/.rvm/scripts/rvm
+  rvm rvmrc warning ignore allGemfiles
+  gem install bundler
+#fi
