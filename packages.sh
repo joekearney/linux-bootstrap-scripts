@@ -6,6 +6,9 @@ set -e
 SCRIPT_DIR=$(readlink -f $0 | xargs dirname)
 
 REQUIRES_UPDATE=no
+if [[ "$1" == -f ]]; then
+  REQUIRES_UPDATE=yes
+fi
 
 # install chrome details
 if ! grep -qL "deb http://dl.google.com/linux/chrome/deb/ stable main" "/etc/apt/sources.list.d/google.list"; then
@@ -33,7 +36,7 @@ fi
 
 # one big update
 if [[ "$REQUIRES_UPDATE" == "yes" ]]; then
-  sudo apt-get update 
+  sudo apt-get update
 fi
 
 # fonts
@@ -41,7 +44,11 @@ sudo sh -c 'echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-e
 
 
 # one big install
-sudo apt-get install vim curl build-essential sublime-text git virtualbox-5.0 jekyll google-chrome-stable spotify-client ttf-mscorefonts-installer
+sudo apt-get install vim curl build-essential sublime-text git virtualbox-5.0 jekyll dropbox google-chrome-stable spotify-client ttf-mscorefonts-installer
+
+if [[ "$REQUIRES_UPDATE" == "yes" ]]; then
+  sudo apt-get dist-upgrade
+fi
 
 $SCRIPT_DIR/consolas.sh 
 
